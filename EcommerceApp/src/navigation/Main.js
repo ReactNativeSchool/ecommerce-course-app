@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { Home } from '../screens/Home';
 import { ProductDetails } from '../screens/ProductDetails';
+import { Explore } from '../screens/Explore';
+import { Account } from '../screens/Account';
 
 const Temp = () => null;
 
@@ -15,12 +17,27 @@ const HomeStackNav = () => (
   </HomeStack.Navigator>
 );
 
+const ExploreStack = createStackNavigator();
+const ExploreStackNav = () => (
+  <ExploreStack.Navigator>
+    <ExploreStack.Screen name="Explore" component={Explore} />
+    <ExploreStack.Screen name="Details" component={ProductDetails} />
+  </ExploreStack.Navigator>
+);
+
+const AccountStack = createStackNavigator();
+const AccountStackNav = () => (
+  <AccountStack.Navigator>
+    <AccountStack.Screen name="Account" component={Account} />
+  </AccountStack.Navigator>
+);
+
 const MainTabs = createBottomTabNavigator();
 const Tabs = () => (
   <MainTabs.Navigator>
     <MainTabs.Screen name="Home" component={HomeStackNav} />
-    <MainTabs.Screen name="Explore" component={Temp} />
-    <MainTabs.Screen name="Account" component={Temp} />
+    <MainTabs.Screen name="Explore" component={ExploreStackNav} />
+    <MainTabs.Screen name="Account" component={AccountStackNav} />
   </MainTabs.Navigator>
 );
 
