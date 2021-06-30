@@ -1,12 +1,15 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import { Home } from '../screens/Home';
 import { ProductDetails } from '../screens/ProductDetails';
 import { Explore } from '../screens/Explore';
 import { Account } from '../screens/Account';
 import { Cart } from '../screens/Cart';
+import { SignIn } from '../screens/SignIn';
+import { SignUp } from '../screens/SignUp';
 
 import { CartIcon } from '../components/Navigation';
 
@@ -46,6 +49,14 @@ const Tabs = () => (
   </MainTabs.Navigator>
 );
 
+const Auth = createMaterialTopTabNavigator();
+const AuthTabs = () => (
+  <Auth.Navigator>
+    <Auth.Screen name="SignIn" component={SignIn} />
+    <Auth.Screen name="SignUp" component={SignUp} />
+  </Auth.Navigator>
+);
+
 const MainStack = createStackNavigator();
 
 export const Main = () => (
@@ -56,5 +67,6 @@ export const Main = () => (
       options={{ headerShown: false }}
     />
     <MainStack.Screen name="Cart" component={Cart} />
+    <MainStack.Screen name="Auth" component={AuthTabs} />
   </MainStack.Navigator>
 );
