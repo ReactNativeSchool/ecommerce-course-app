@@ -6,12 +6,17 @@ import { Home } from '../screens/Home';
 import { ProductDetails } from '../screens/ProductDetails';
 import { Explore } from '../screens/Explore';
 import { Account } from '../screens/Account';
+import { Cart } from '../screens/Cart';
 
-const Temp = () => null;
+import { CartIcon } from '../components/Navigation';
+
+const tabStackScreenOptions = {
+  headerRight: () => <CartIcon />,
+};
 
 const HomeStack = createStackNavigator();
 const HomeStackNav = () => (
-  <HomeStack.Navigator>
+  <HomeStack.Navigator screenOptions={tabStackScreenOptions}>
     <HomeStack.Screen name="Home" component={Home} />
     <HomeStack.Screen name="Details" component={ProductDetails} />
   </HomeStack.Navigator>
@@ -19,7 +24,7 @@ const HomeStackNav = () => (
 
 const ExploreStack = createStackNavigator();
 const ExploreStackNav = () => (
-  <ExploreStack.Navigator>
+  <ExploreStack.Navigator screenOptions={tabStackScreenOptions}>
     <ExploreStack.Screen name="Explore" component={Explore} />
     <ExploreStack.Screen name="Details" component={ProductDetails} />
   </ExploreStack.Navigator>
@@ -27,7 +32,7 @@ const ExploreStackNav = () => (
 
 const AccountStack = createStackNavigator();
 const AccountStackNav = () => (
-  <AccountStack.Navigator>
+  <AccountStack.Navigator screenOptions={tabStackScreenOptions}>
     <AccountStack.Screen name="Account" component={Account} />
   </AccountStack.Navigator>
 );
@@ -44,11 +49,12 @@ const Tabs = () => (
 const MainStack = createStackNavigator();
 
 export const Main = () => (
-  <MainStack.Navigator>
+  <MainStack.Navigator mode="modal">
     <MainStack.Screen
       name="Root"
       component={Tabs}
       options={{ headerShown: false }}
     />
+    <MainStack.Screen name="Cart" component={Cart} />
   </MainStack.Navigator>
 );
