@@ -11,7 +11,8 @@ import { Cart } from '../screens/Cart';
 import { SignIn } from '../screens/SignIn';
 import { SignUp } from '../screens/SignUp';
 
-import { CartIcon } from '../components/Navigation';
+import { CartIcon, TabBarIcon, CloseIcon } from '../components/Navigation';
+import colors from '../constants/colors';
 
 const tabStackScreenOptions = {
   headerRight: () => <CartIcon />,
@@ -42,7 +43,15 @@ const AccountStackNav = () => (
 
 const MainTabs = createBottomTabNavigator();
 const Tabs = () => (
-  <MainTabs.Navigator>
+  <MainTabs.Navigator
+    tabBarOptions={{
+      activeTintColor: colors.brand,
+      inactiveTintColor: colors.icon,
+    }}
+    screenOptions={({ route }) => ({
+      tabBarIcon: props => <TabBarIcon {...props} routeName={route.name} />,
+    })}
+  >
     <MainTabs.Screen name="Home" component={HomeStackNav} />
     <MainTabs.Screen name="Explore" component={ExploreStackNav} />
     <MainTabs.Screen name="Account" component={AccountStackNav} />
@@ -66,7 +75,19 @@ export const Main = () => (
       component={Tabs}
       options={{ headerShown: false }}
     />
-    <MainStack.Screen name="Cart" component={Cart} />
-    <MainStack.Screen name="Auth" component={AuthTabs} />
+    <MainStack.Screen
+      name="Cart"
+      component={Cart}
+      options={{
+        headerLeft: () => <CloseIcon />,
+      }}
+    />
+    <MainStack.Screen
+      name="Auth"
+      component={AuthTabs}
+      options={{
+        headerLeft: () => <CloseIcon />,
+      }}
+    />
   </MainStack.Navigator>
 );
