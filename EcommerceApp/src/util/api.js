@@ -1,6 +1,5 @@
 import { useQuery } from 'react-query';
-
-const API_URL = 'http://localhost:3000/api';
+import { API_URL } from '@env';
 
 const appFetch = (path, options = {}) =>
   fetch(`${API_URL}${path}`, options).then(res => res.json());
