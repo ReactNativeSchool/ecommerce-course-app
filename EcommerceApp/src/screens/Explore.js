@@ -1,12 +1,15 @@
 import React from 'react';
-import { View } from 'react-native';
 
-import { Button } from '../components/Button';
+import { useExploreData } from '../util/api';
+import { Loading } from '../components/Loading';
 
-export const Explore = ({ navigation }) => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
-      <Button onPress={() => navigation.push('Details')}>Details</Button>
-    </View>
-  );
+export const Explore = () => {
+  const { isLoading, data } = useExploreData();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  console.log(data);
+  return null;
 };

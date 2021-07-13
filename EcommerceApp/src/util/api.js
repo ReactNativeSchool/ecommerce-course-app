@@ -9,3 +9,9 @@ export const useHomeData = () => {
     return appFetch('/products/trending');
   });
 };
+
+export const useExploreData = () => {
+  return useQuery('explore', () => {
+    return appFetch('/products/explore');
+  });
+};
