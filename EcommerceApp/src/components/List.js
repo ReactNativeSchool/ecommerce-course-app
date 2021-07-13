@@ -5,7 +5,9 @@ import {
   Image,
   StyleSheet,
   View,
+  SectionList,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Text } from './Text';
 import { money } from '../util/format';
@@ -34,6 +36,12 @@ const styles = StyleSheet.create({
     borderTopColor: colors.border,
     borderTopWidth: 1,
   },
+  sectionList: {
+    backgroundColor: colors.background,
+  },
+  content: {
+    paddingBottom: 100,
+  },
 });
 
 export const ItemCard = ({ name, price, onPress, image }) => (
@@ -57,3 +65,40 @@ export const SectionHeader = ({ children }) => (
 export const SectionFooter = () => (
   <View style={{ flex: 1, backgroundColor: colors.border, height: 1 }} />
 );
+
+export const ProductList = ({ sections = [] }) => {
+  const navigation = useNavigation();
+
+  return (
+    <SectionList
+      style={styles.sectionList}
+      contentContainerStyle={styles.content}
+      sections={sections}
+      renderItem={({ section, index }) => {
+        if (index % 2 !== 0) return null;
+
+        const item = section.data[index];
+        const nextItem = section.data[index + 1];
+
+        return (
+          <View style={{ backgroundColor: '#fff', flexDirection: 'row' }}>
+            <ItemCard {...item} onPress={() => navigation.push('Details')} />
+            {nextItem ? (
+              <ItemCard
+                {...nextItem}
+                onPress={() => navigation.push('Details')}
+              />
+            ) : (
+              <View style={{ flex: 1 }} />
+            )}
+          </View>
+        );
+      }}
+      renderSectionHeader={({ section }) => (
+        <SectionHeader>{section.title}</SectionHeader>
+      )}
+      renderSectionFooter={() => <SectionFooter />}
+      stickySectionHeadersEnabled={false}
+    />
+  );
+};
