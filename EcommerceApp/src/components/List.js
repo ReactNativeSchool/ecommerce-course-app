@@ -80,14 +80,20 @@ export const ProductList = ({ sections = [] }) => {
         const item = section.data[index];
         const nextItem = section.data[index + 1];
 
+        const onPress = ({ id, name, price, image }) => {
+          navigation.push('Details', {
+            id,
+            name,
+            price,
+            image,
+          });
+        };
+
         return (
           <View style={{ backgroundColor: '#fff', flexDirection: 'row' }}>
-            <ItemCard {...item} onPress={() => navigation.push('Details')} />
+            <ItemCard {...item} onPress={() => onPress(item)} />
             {nextItem ? (
-              <ItemCard
-                {...nextItem}
-                onPress={() => navigation.push('Details')}
-              />
+              <ItemCard {...nextItem} onPress={() => onPress(nextItem)} />
             ) : (
               <View style={{ flex: 1 }} />
             )}
