@@ -15,3 +15,9 @@ export const useExploreData = () => {
     return appFetch('/products/explore');
   });
 };
+
+export const useDetailData = ({ id }) => {
+  return useQuery(`detail-${id}`, () => {
+    return appFetch(`/product/${id}`);
+  });
+};

@@ -4,6 +4,7 @@ import { ScrollView, View, Image, StyleSheet } from 'react-native';
 import { Text } from '../components/Text';
 import colors from '../constants/colors';
 import { money } from '../util/format';
+import { useDetailData } from '../util/api';
 
 const styles = StyleSheet.create({
   section: {
@@ -24,7 +25,10 @@ const styles = StyleSheet.create({
 });
 
 export const ProductDetails = ({ route }) => {
-  const { name, price, image } = route.params;
+  const { id, name, price, image } = route.params;
+  const res = useDetailData({ id });
+
+  console.log(res);
 
   return (
     <ScrollView>
