@@ -5,6 +5,7 @@ import { Text } from '../components/Text';
 import colors from '../constants/colors';
 import { money } from '../util/format';
 import { useDetailData } from '../util/api';
+import { Loading } from '../components/Loading';
 
 const styles = StyleSheet.create({
   section: {
@@ -25,10 +26,17 @@ const styles = StyleSheet.create({
 });
 
 export const ProductDetails = ({ route }) => {
-  const { id, name, price, image } = route.params;
-  const res = useDetailData({ id });
+  const staticData = route.params;
+  const { data, isSuccess, isLoading } = useDetailData({ id: route.params.id });
 
-  console.log(res);
+  let { image, name, price } = staticData;
+  let description;
+  if (isSuccess) {
+    image = data.data.image;
+    name = data.data.name;
+    price = data.data.price;
+    description = data.data.description;
+  }
 
   return (
     <ScrollView>
@@ -44,6 +52,11 @@ export const ProductDetails = ({ route }) => {
             {money(price)}
           </Text>
         </View>
+      </View>
+
+      <View style={[styles.section, { flexDirection: 'column' }]}>
+        <Text type="header">Description</Text>
+        {isLoading ? <Loading /> : <Text>{description}</Text>}
       </View>
     </ScrollView>
   );
