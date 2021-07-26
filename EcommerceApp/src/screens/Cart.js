@@ -33,18 +33,9 @@ export const Cart = () => {
 
   return (
     <ScrollView style={{ backgroundColor: colors.white }}>
-      {Object.keys(cart).map(id => {
-        const item = cart[id];
-
-        return (
-          <CartRow
-            key={id}
-            name={item.name}
-            price={item.price}
-            quantity={item.quantity}
-          />
-        );
-      })}
+      {Object.keys(cart).map(id => (
+        <CartRow key={id} id={id} />
+      ))}
     </ScrollView>
   );
 };
