@@ -7,6 +7,7 @@ import { money } from '../util/format';
 import { useDetailData } from '../util/api';
 import { Loading } from '../components/Loading';
 import { QuantityCounter } from '../components/QuantityCounter';
+import { useCart } from '../util/cart';
 
 const styles = StyleSheet.create({
   section: {
@@ -29,6 +30,11 @@ const styles = StyleSheet.create({
 export const ProductDetails = ({ route }) => {
   const staticData = route.params;
   const { data, isSuccess, isLoading } = useDetailData({ id: route.params.id });
+  const cart = useCart(state => ({
+    quantity: state.cart[route.params.id]?.quantity || 0,
+    addItem: state.addItem,
+    removeItem: state.removeItem,
+  }));
 
   let { image, name, price } = staticData;
   let description;
@@ -63,9 +69,9 @@ export const ProductDetails = ({ route }) => {
       </ScrollView>
       <QuantityCounter
         price={price}
-        quantity={0}
-        onDecrement={() => console.log('TODO Decrement')}
-        onIncrement={() => console.log('TODO Increment')}
+        quantity={cart.quantity}
+        onDecrement={() => cart.removeItem(route.params.id)}
+        onIncrement={() => cart.addItem({ id: route.params.id, name, price })}
       />
     </>
   );
