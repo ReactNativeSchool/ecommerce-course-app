@@ -2,6 +2,17 @@ import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export const cartQuantity = cart => {
+  let quantity = 0;
+
+  Object.keys(cart).forEach(id => {
+    const item = cart[id];
+    quantity += item.quantity;
+  });
+
+  return quantity;
+};
+
 export const cartTotal = cart => {
   let total = 0;
 
