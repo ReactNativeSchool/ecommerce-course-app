@@ -65,6 +65,7 @@ export const useCart = create(
           return { cart };
         });
       },
+      clearCart: () => set(() => ({ cart: {} })),
     }),
     {
       name: 'cart',

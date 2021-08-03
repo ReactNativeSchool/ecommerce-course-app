@@ -20,7 +20,7 @@ export const CartRow = ({ id }) => {
   const { addItem, removeItem, item } = useCart(state => ({
     addItem: state.addItem,
     removeItem: state.removeItem,
-    item: state.cart[id],
+    item: state.cart[id] || {},
   }));
 
   return (
