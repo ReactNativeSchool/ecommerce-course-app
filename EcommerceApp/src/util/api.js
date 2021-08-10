@@ -1,6 +1,33 @@
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import { API_URL } from '@env';
 import { useStripe } from '@stripe/stripe-react-native';
+
+import { useAuth } from './auth';
+
+export const useSignUp = () => {
+  const setToken = useAuth(state => state.setToken);
+
+  return useMutation(
+    ({ email, password }) => {
+      return appFetch('/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+    },
+    {
+      onSuccess: data => {
+        if (!data.token) {
+          throw new Error(data.message);
+        }
+
+        setToken(data.token);
+      },
+    },
+  );
+};
 
 export const usePayment = (cart = {}) => {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();

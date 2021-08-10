@@ -5,6 +5,7 @@ import { TextInput } from '../components/Form';
 import { Button } from '../components/Button';
 import colors from '../constants/colors';
 import { validateCredentials } from '../util/auth';
+import { useSignUp } from '../util/api';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,16 +14,26 @@ const styles = StyleSheet.create({
   },
 });
 
-export const SignUp = () => {
+export const SignUp = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [errors, setErrors] = React.useState({});
+  const signup = useSignUp();
 
   const submit = async () => {
     setErrors({});
     try {
       await validateCredentials({ email, password, confirmPassword });
+
+      signup.mutate(
+        { email, password },
+        {
+          onSuccess: () => {
+            navigation.popToTop();
+          },
+        },
+      );
     } catch (error) {
       const nextErrors = {};
       error.inner.forEach(e => {
@@ -53,7 +64,7 @@ export const SignUp = () => {
         secureTextEntry
         autoCapitalize="none"
         onChangeText={text => setConfirmPassword(text)}
-        errorText={errors.confirmPassword}
+        errorText={errors.confirmPassword || signup?.error?.message}
       />
       <Button onPress={submit}>Sign Up</Button>
     </ScrollView>
