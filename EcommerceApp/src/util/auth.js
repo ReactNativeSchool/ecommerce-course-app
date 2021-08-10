@@ -1,5 +1,20 @@
 import React from 'react';
 import { Alert } from 'react-native';
+import * as yup from 'yup';
+
+export const validateCredentials = (credentials = {}) => {
+  const schema = yup.object().shape({
+    email: yup.string().required().email().label('Email'),
+    password: yup.string().required().label('Password'),
+    confirmPassword: yup
+      .string()
+      .test('passwords-match', 'Password must match.', function (value) {
+        return value === this.parent.password;
+      }),
+  });
+
+  return schema.validate(credentials, { abortEarly: false });
+};
 
 export const useLogin = () => {
   const [email, setEmail] = React.useState('');
