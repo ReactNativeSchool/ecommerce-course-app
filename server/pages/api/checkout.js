@@ -1,12 +1,35 @@
 import Stripe from 'stripe';
 
 import prisma from '../../util/prisma';
+import { decodeJWT } from '../../util/auth';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET);
+
+const getUser = async request => {
+  try {
+    const decoded = await decodeJWT(request?.headers?.authorization);
+    const user = await prisma.user.findFirst({
+      where: {
+        id: decoded.id,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    return null;
+  }
+};
 
 export default async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed. ' });
+  }
+
+  const user = await getUser(req);
+  if (!user) {
+    return res
+      .status(401)
+      .json({ message: 'You must be signed in to do that.' });
   }
 
   // console.log(req.body.cart);
