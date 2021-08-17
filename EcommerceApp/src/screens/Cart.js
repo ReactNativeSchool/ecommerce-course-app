@@ -8,6 +8,7 @@ import { CartRow } from '../components/CartRow';
 import { money } from '../util/format';
 import { Button } from '../components/Button';
 import { usePayment } from '../util/api';
+import { useAuth } from '../util/auth';
 
 const styles = StyleSheet.create({
   emptyContainer: {
@@ -30,6 +31,8 @@ export const Cart = ({ navigation }) => {
     clearCart: state.clearCart,
   }));
   const { checkout } = usePayment(cart);
+  const token = useAuth(state => state.token);
+  const isLoggedIn = token !== null;
 
   const isEmpty = Object.keys(cart).length === 0;
 
@@ -71,7 +74,13 @@ export const Cart = ({ navigation }) => {
         </Text>
 
         <View style={{ marginTop: 20 }}>
-          <Button onPress={onCheckout}>Checkout</Button>
+          {isLoggedIn ? (
+            <Button onPress={onCheckout}>Checkout</Button>
+          ) : (
+            <Button onPress={() => navigation.push('Auth')}>
+              Login to Checkout
+            </Button>
+          )}
         </View>
       </View>
     </ScrollView>

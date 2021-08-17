@@ -56,12 +56,14 @@ export const useSignUp = () => {
 
 export const usePayment = (cart = {}) => {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const token = useAuth(state => state.token);
 
   const fetchPaymentSheetParams = async () => {
     const response = await fetch(`${API_URL}/checkout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ cart }),
     });
