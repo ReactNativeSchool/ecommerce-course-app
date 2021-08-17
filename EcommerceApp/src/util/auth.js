@@ -19,15 +19,24 @@ export const useAuth = create(
   ),
 );
 
-export const validateCredentials = (credentials = {}) => {
-  const schema = yup.object().shape({
-    email: yup.string().required().email().label('Email'),
-    password: yup.string().required().label('Password'),
-    confirmPassword: yup
+export const validateCredentials = (
+  credentials = {},
+  useConfirmPassword = true,
+) => {
+  const extraValidation = {};
+
+  if (useConfirmPassword) {
+    extraValidation.confirmPassword = yup
       .string()
       .test('passwords-match', 'Password must match.', function (value) {
         return value === this.parent.password;
-      }),
+      });
+  }
+
+  const schema = yup.object().shape({
+    email: yup.string().required().email().label('Email'),
+    password: yup.string().required().label('Password'),
+    ...extraValidation,
   });
 
   return schema.validate(credentials, { abortEarly: false });

@@ -4,6 +4,31 @@ import { useStripe } from '@stripe/stripe-react-native';
 
 import { useAuth } from './auth';
 
+export const useSignIn = () => {
+  const setToken = useAuth(state => state.setToken);
+
+  return useMutation(
+    ({ email, password }) => {
+      return appFetch('/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+    },
+    {
+      onSuccess: data => {
+        if (!data.token) {
+          throw new Error(data.message);
+        }
+
+        setToken(data.token);
+      },
+    },
+  );
+};
+
 export const useSignUp = () => {
   const setToken = useAuth(state => state.setToken);
 
