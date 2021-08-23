@@ -73,11 +73,14 @@ export const usePayment = (cart = {}) => {
 
   const checkout = async () => {
     // create a payment intent
-    const { paymentIntent } = await fetchPaymentSheetParams();
+    const { paymentIntent, customer, ephemeralKey } =
+      await fetchPaymentSheetParams();
 
     // initial client side payment sheet
     const { error } = await initPaymentSheet({
       paymentIntentClientSecret: paymentIntent,
+      customerEphemeralKeySecret: ephemeralKey,
+      customerId: customer,
     });
 
     // display client side payment sheet
