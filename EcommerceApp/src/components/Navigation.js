@@ -67,11 +67,11 @@ export const CloseIcon = () => {
 export const TabBarIcon = ({ size, routeName, color }) => {
   let src = require('../assets/images/home-outline.png');
 
-  if (routeName === 'Explore') {
+  if (routeName === 'ExploreTab') {
     src = require('../assets/images/apps-outline.png');
   }
 
-  if (routeName === 'Account') {
+  if (routeName === 'AccountTab') {
     src = require('../assets/images/person-circle-outline.png');
   }
 
