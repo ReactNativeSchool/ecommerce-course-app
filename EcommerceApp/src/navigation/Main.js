@@ -44,17 +44,28 @@ const AccountStackNav = () => (
 const MainTabs = createBottomTabNavigator();
 const Tabs = () => (
   <MainTabs.Navigator
-    tabBarOptions={{
-      activeTintColor: colors.brand,
-      inactiveTintColor: colors.icon,
-    }}
     screenOptions={({ route }) => ({
       tabBarIcon: props => <TabBarIcon {...props} routeName={route.name} />,
+      tabBarActiveTintColor: colors.brand,
+      tabBarInactiveTintColor: colors.icon,
+      headerShown: false,
     })}
   >
-    <MainTabs.Screen name="Home" component={HomeStackNav} />
-    <MainTabs.Screen name="Explore" component={ExploreStackNav} />
-    <MainTabs.Screen name="Account" component={AccountStackNav} />
+    <MainTabs.Screen
+      name="HomeTab"
+      component={HomeStackNav}
+      options={{ tabBarLabel: 'Home' }}
+    />
+    <MainTabs.Screen
+      name="ExploreTab"
+      component={ExploreStackNav}
+      options={{ tabBarLabel: 'Explore' }}
+    />
+    <MainTabs.Screen
+      name="AccountTab"
+      component={AccountStackNav}
+      options={{ tabBarLabel: 'Account' }}
+    />
   </MainTabs.Navigator>
 );
 
@@ -69,7 +80,7 @@ const AuthTabs = () => (
 const MainStack = createStackNavigator();
 
 export const Main = () => (
-  <MainStack.Navigator mode="modal">
+  <MainStack.Navigator>
     <MainStack.Screen
       name="Root"
       component={Tabs}
@@ -80,6 +91,7 @@ export const Main = () => (
       component={Cart}
       options={{
         headerLeft: () => <CloseIcon />,
+        presentation: 'modal',
       }}
     />
     <MainStack.Screen
@@ -87,6 +99,7 @@ export const Main = () => (
       component={AuthTabs}
       options={{
         headerLeft: () => <CloseIcon />,
+        presentation: 'modal',
       }}
     />
   </MainStack.Navigator>
