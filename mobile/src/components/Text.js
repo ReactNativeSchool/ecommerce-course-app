@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontWeight: '600',
     fontSize: 32,
-    marginBottom: 6,
+    marginBottom: 12,
   },
   subHeaderText: {
     color: colors.gray,

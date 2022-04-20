@@ -61,7 +61,11 @@ export const useLogin = () => {
       return null;
     }
 
-    Alert.alert('Success!', `Email: ${email} \n Password: ${password}`);
+    Alert.alert(
+      'Success!',
+      `Email: ${email}
+ Password: ${password}`,
+    );
     return null;
   };
 

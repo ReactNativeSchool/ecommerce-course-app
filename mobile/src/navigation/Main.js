@@ -45,10 +45,10 @@ const MainTabs = createBottomTabNavigator();
 const Tabs = () => (
   <MainTabs.Navigator
     screenOptions={({ route }) => ({
+      headerShown: false,
       tabBarIcon: props => <TabBarIcon {...props} routeName={route.name} />,
       tabBarActiveTintColor: colors.brand,
       tabBarInactiveTintColor: colors.icon,
-      headerShown: false,
     })}
   >
     <MainTabs.Screen
